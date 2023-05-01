@@ -1,9 +1,9 @@
-name: Dev Backend
+name: master Backend
 
 on:
   push:
     branches:
-        - dev
+        - master
 
 jobs:
   build:
