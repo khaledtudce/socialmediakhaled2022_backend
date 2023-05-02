@@ -22,11 +22,8 @@ app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 //middleware
 app.use(express.json());
-app.use(
-  cors({
-    origin: "http://107.20.64.240:8800",
-  })
-);
+app.use(cors());
+app.options("*", cors());
 // it helped image from cors-header-problem
 app.use(helmet());
 app.use(morgan("common"));

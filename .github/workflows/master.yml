@@ -47,6 +47,7 @@ jobs:
              cd /home/ubuntu/
              mkdir -p deploy/backend
              cd deploy/backend
+             git reset --hard HEAD
              git pull origin master --rebase
              npm install
              npm run build
