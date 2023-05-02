@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const cors = require("cors");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -20,6 +21,7 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }, () => {
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 //middleware
+app.use(cors());
 app.use(express.json());
 // it helped image from cors-header-problem
 app.use(helmet());
