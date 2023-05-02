@@ -23,7 +23,7 @@ app.use("/images", express.static(path.join(__dirname, "public/images")));
 //middleware
 app.use(express.json());
 app.use(cors());
-app.options("*", cors());
+app.options("http://107.20.64.240:8800", cors());
 // it helped image from cors-header-problem
 app.use(helmet());
 app.use(morgan("common"));
@@ -55,7 +55,7 @@ app.use("/api/messages", messageRoute);
 app.use("/api/conversations", conversationRoute);
 
 app.get("/", (req, res) => {
-  res.send("Welcome to homepage 2");
+  res.send("Welcome to homepage 3");
 });
 
 app.listen(8800, () => {
