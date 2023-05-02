@@ -23,7 +23,7 @@ app.use("/images", express.static(path.join(__dirname, "public/images")));
 //middleware
 app.use(
   cors({
-    origin: "http://107.20.64.240:8800",
+    origin: "*",
   })
 );
 app.use(express.json());
