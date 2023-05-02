@@ -23,7 +23,7 @@ app.use("/images", express.static(path.join(__dirname, "public/images")));
 //middleware
 app.use(
   cors({
-    origin: "*",
+    origin: "http://107.20.64.240:8800",
   })
 );
 app.use(express.json());
@@ -58,7 +58,7 @@ app.use("/api/messages", messageRoute);
 app.use("/api/conversations", conversationRoute);
 
 app.get("/", (req, res) => {
-  res.send("Welcome to homepage");
+  res.send("Welcome to homepage 1");
 });
 
 app.listen(8800, () => {
