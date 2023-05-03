@@ -21,11 +21,12 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }, () => {
 app.use(cors());
 app.options("*", cors());
 
-app.use("/images", express.static(path.join(__dirname, "public/images")));
-
 //middleware
 app.use(express.json());
 // it helped image from cors-header-problem
+
+app.use("/images", express.static(path.join(__dirname, "public/images")));
+
 app.use(helmet());
 app.use(morgan("common"));
 
@@ -56,7 +57,7 @@ app.use("/api/messages", messageRoute);
 app.use("/api/conversations", conversationRoute);
 
 app.get("/", (req, res) => {
-  res.send("Welcome to homepage 4");
+  res.send("Welcome to homepage 5");
 });
 
 app.listen(8800, () => {
