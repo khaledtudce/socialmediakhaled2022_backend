@@ -38,17 +38,6 @@ jobs:
           username: ${{ secrets.USERMASTER }}
           key: ${{ secrets.KEYMASTER }}
           port: ${{ secrets.PORTMASTER }}
-          script: |
-            curl -o-   https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh    | bash
-            . ~/.nvm/nvm.sh
+          source: dist/
+          target: /home/ubuntu/deploy/test
 
-             nvm install 18
-             npm install -g pm2
-             cd /home/ubuntu/
-             mkdir -p deploy/backend
-             cd deploy/backend
-             git reset --hard HEAD
-             git pull origin master --rebase
-             npm install
-             npm run build
-             pm2 restart api
