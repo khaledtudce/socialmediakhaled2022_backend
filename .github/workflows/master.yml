@@ -39,5 +39,5 @@ jobs:
           key: ${{ secrets.KEYMASTER }}
           port: ${{ secrets.PORTMASTER }}
           source: dist/
-          target: /home/ubuntu/deploy/test
+          target: /home/ubuntu/deploy/test/
 
