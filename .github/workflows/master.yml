@@ -38,6 +38,6 @@ jobs:
           username: ${{ secrets.USERMASTER }}
           key: ${{ secrets.KEYMASTER }}
           port: ${{ secrets.PORTMASTER }}
-          source: dist/
+          source: build/dist/
           target: /home/ubuntu/deploy/test/
 
