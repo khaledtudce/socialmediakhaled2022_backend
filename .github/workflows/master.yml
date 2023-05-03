@@ -31,13 +31,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to EC2 instance
-        uses: appleboy/scp-action@master
+      - name: SSH Deploy
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOSTMASTER }}
           username: ${{ secrets.USERMASTER }}
           key: ${{ secrets.KEYMASTER }}
           port: ${{ secrets.PORTMASTER }}
-          source: build/
-          target: /home/ubuntu/deploy/test/
+          script: |
+            curl -o-   https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh    | bash
+            . ~/.nvm/nvm.sh
+
+             nvm install 18
+             npm install -g pm2
+             cd /home/ubuntu/
+             mkdir -p deploy/backend
+             cd deploy/backend
+             git reset --hard HEAD
+             git pull origin master --rebase
+             npm install
+             npm run build
+             cp -a /home/ubuntu/deploy/backend/public /home/ubuntu/deploy/backend/dist/
+             pm2 restart api
 
