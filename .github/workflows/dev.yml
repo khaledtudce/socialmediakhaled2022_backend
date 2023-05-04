@@ -44,6 +44,7 @@ jobs:
 
              nvm install 18
              npm install -g pm2
+             pm2 delete api
              pm2 start npm --name api -- start
              cd /home/ubuntu/
              mkdir -p deploy/backend
