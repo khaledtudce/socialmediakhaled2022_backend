@@ -1,0 +1,55 @@
+name: dev Backend
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use node js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install and build
+        run: |
+          npm install
+          npm run build
+
+        env:
+          CI: true
+
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOSTDEV }}
+          username: ${{ secrets.USERDEV }}
+          key: ${{ secrets.KEYDEV }}
+          port: ${{ secrets.PORTDEV }}
+          script: |
+            curl -o-   https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash
+            . ~/.nvm/nvm.sh
+
+             nvm install 18
+             npm install -g pm2
+             cd /home/ubuntu/
+             mkdir -p deploy/backend
+             cd deploy/backend
+             git reset --hard HEAD
+             git pull origin dev --rebase
+             npm install
+             npm run build
+             cp -a /home/ubuntu/deploy/backend/public /home/ubuntu/deploy/backend/dist/
+             pm2 restart api
