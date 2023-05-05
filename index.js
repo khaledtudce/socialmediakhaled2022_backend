@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const cors = require("cors");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -16,6 +17,9 @@ dotenv.config();
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }, () => {
   console.log("Connected to MondoDb");
 });
+
+app.use(cors());
+app.options("*", cors());
 
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 
