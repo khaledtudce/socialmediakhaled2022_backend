@@ -45,7 +45,7 @@ jobs:
              nvm install 18
              npm install -g pm2
              cd /home/ubuntu/
-             mkdir -p deploy/backend
+             mkdir -p deploy/backend 
              cd deploy/backend
              git reset --hard HEAD
              git pull origin dev --rebase
