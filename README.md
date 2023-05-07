@@ -61,7 +61,7 @@ jobs:
              pm2 restart api
 ```
 
-## CI/CD Configuration instructions
+## Backend CI/CD Configuration instructions
 
 ### 1. Need following libraries to install in the backend to deploy node js application: html-webpack-plugin, webpack, webpack-node-externals, webpack-cli
 ```sh
@@ -76,31 +76,33 @@ npm i webpack-cli
 sudo apt-get update
 ```
 
-### 3. Go to the security folder 
+### 3. Open port 8800 under Security of AWS instance, protocol: TCP. Clicking on Security Groups will open a window where it is possible to edit inbound rules
+
+### 4. Go to the security folder 
 ```sh
 cd .ssh
 ```
 
-### 4. Generate key using ssh-keygen
+### 5. Generate key using ssh-keygen
 ```sh
 ssh-keygen -t ed25519 -a 200 -C "khaledreza@gmail.com" 
 ```
 
-### 5. Copy this private key and put it to the Github Action Secrets for KEYDEV
+### 6. Copy this private key and put it to the Github Action Secrets for KEYDEV
 ```sh
 cat id_ed25519
 ```
 
-### 6. Provide rest of the github Action secrets, HOSTDEV=public ip address of the aws instance, USERDEV=ubuntu (default), PORTDEV=22 (default)
+### 7. Provide rest of the github Action secrets, HOSTDEV=public ip address of the aws instance, USERDEV=ubuntu (default), PORTDEV=22 (default)
 
-### 7. Copy id_ed25519.pub key to the authorized_keys, so that github's ssh request can be validated using this public key. Otherwise there will be handshake failure because key validation failure
+### 8. Copy id_ed25519.pub key to the authorized_keys, so that github's ssh request can be validated using this public key. Otherwise there will be handshake failure because key validation failure
 ```sh
 cat id_ed25519.pub
 sudo nano authorized_keys
 ```
 Save it with Cntl + x, then press y and then press enter. When the build is run again, it should be able to connect with aws securely. 
 
-### 8. To pick nvm package manager,
+### 9. To pick nvm package manager,
 ```sh
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash
 ~/.nvm/nvm.sh
@@ -108,27 +110,27 @@ nvm -v # To see the nvm version
 npm -v # To see npm version
 ```
 
-### 9. For only one time, install project manager pm2, 
+### 10. For only one time, install project manager pm2, 
 ```sh
 nvm install 18 # probably was already installed from package manager installer
 npm install -g pm2  
 ```
 
-### 10. For only one time make the backend directory and initialize the git repository here, so that from the CI/CD, the updated code can be pulled easily. 
+### 11. For only one time make the backend directory and initialize the git repository here, so that from the CI/CD, the updated code can be pulled easily. 
 ```sh
 mkdir -p deploy/backend 
 cd deploy/backend
 git init # initialize repository
-git remote add origin khaledtudce/socialmediakhaled2022_socket.git # add remote repository origin
-git remote set-url origin https://github.com/khaledtudce/socialmediakhaled2022_socket.git # give access right
+git remote add origin khaledtudce/socialmediakhaled2022_backend.git # add remote repository origin
+git remote set-url origin https://github.com/khaledtudce/socialmediakhaled2022_backend.git # give access right
 ```
 
-### 11. Start pm2 for the first time only from the folder where index.js and package.json are
+### 12. Start pm2 for the first time only from the folder where index.js and package.json are
 ```sh
 pm2 start npm --name api -- run start:prod # start process (name it api) from current directory start:prod from package.json
 ```
 
-### 12. Make sure that you have configured the starting script of package.json of backend server using following, so that the CI/CD can pick the backend application to run from current folder
+### 13. Make sure that you have configured the starting script of package.json of backend server using following, so that the CI/CD can pick the backend application to run from current folder
 ```sh
 "scripts": {
     "build": "webpack --mode development",
@@ -137,7 +139,7 @@ pm2 start npm --name api -- run start:prod # start process (name it api) from cu
   }
 ```
 
-### 13. If index.js file has following, then i.e. http://54.146.140.24:8800/ of root page will show that message "Welcome to homepage 5", server will run on port 8800
+### 14. If index.js file has following, then i.e. http://54.146.140.24:8800/ of root page will show that message "Welcome to homepage 5", server will run on port 8800
 ```sh
 app.get("/", (req, res) => {
   res.send("Welcome to homepage 5");
@@ -148,13 +150,16 @@ app.listen(8800, () => {
 });
 ```
 
-### 14. The backend is supposed to be running and can be seen under server public address i.e. http://54.146.140.24:8800/
+### 15. The backend is supposed to be running and can be seen under server public address i.e. 
 ```sh
+http://54.146.140.24:8800/ # aws instance public address
+Welcome to homepage 5 # should see this message on browser
+
 http://54.146.140.24:8800/api/users/63acb2551958832863001bc4 # Server api can be accessed by this link
 http://54.146.140.24:8800/images/person/1.jpeg # Server image can be accessed by this link
 ```
 
-### 15. As our client and server are in different aws instance, we had to allow cors from server to avoid cors header problem.
+### 16. As our client and server are in different aws instance, we had to allow cors from server to avoid cors header problem.
 ```sh
 npm i cors # install cors
 
@@ -165,9 +170,9 @@ app.options("*", cors());
 ```
 
 
-### 16. Another way to deploy application is by putting frontend (after build) on backend's dist folder. In that case we do not need two aws instance and there will be no cors problem since both client and server are in same instance. In that case, server can be taken by git pull request and client will be picked after build from github. I will try later.
+### 17. Another way to deploy application is by putting frontend (after build) on backend's dist folder. In that case we do not need two aws instance and there will be no cors problem since both client and server are in same instance. In that case, server can be taken by git pull request and client will be picked after build from github. I will try later.
 
-### 17. Some useful linux command for general use,
+### 18. Some useful linux command for general use,
 
 ```sh
 pm2 start npm --name api -- run start:prod # Using project manager, run process from the current folder described in start:prod and name it api
