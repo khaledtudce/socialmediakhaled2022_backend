@@ -139,7 +139,14 @@ pm2 start npm --name api -- run start:prod # start process (name it api) from cu
   }
 ```
 
-### 14. If index.js file has following, then i.e. http://54.146.140.24:8800/ of root page will show that message "Welcome to homepage 5", server will run on port 8800
+### 14. Need to manage .env file on AWS with following informations, this is a one time configuration (provide your database URL, our database is mongodb provided cloud service). This is untract file, that is why we need to provide it on our own to root directory of the project. 
+```sh
+.env file (untraced from git)
+
+MONGO_URL = mongodb+srv://khaledtudce:Salmon.13@cluster0.c6jtzdo.mongodb.net/socialmediakhaled?retryWrites=true&w=majority
+```
+
+### 15. If index.js file has following, then i.e. http://54.146.140.24:8800/ of root page will show that message "Welcome to homepage 5", server will run on port 8800
 ```sh
 app.get("/", (req, res) => {
   res.send("Welcome to homepage 5");
@@ -150,7 +157,7 @@ app.listen(8800, () => {
 });
 ```
 
-### 15. The backend is supposed to be running and can be seen under server public address i.e. 
+### 16. The backend is supposed to be running and can be seen under server public address i.e. 
 ```sh
 http://54.146.140.24:8800/ # aws instance public address
 Welcome to homepage 5 # should see this message on browser
@@ -159,7 +166,7 @@ http://54.146.140.24:8800/api/users/63acb2551958832863001bc4 # Server api can be
 http://54.146.140.24:8800/images/person/1.jpeg # Server image can be accessed by this link
 ```
 
-### 16. As our client and server are in different aws instance, we had to allow cors from server to avoid cors header problem.
+### 17. As our client and server are in different aws instance, we had to allow cors from server to avoid cors header problem.
 ```sh
 npm i cors # install cors
 
@@ -169,10 +176,9 @@ app.use(cors()); provide in index.js file
 app.options("*", cors());
 ```
 
+### 18. Another way to deploy application is by putting frontend (after build) on backend's dist folder. In that case we do not need two aws instance and there will be no cors problem since both client and server are in same instance. In that case, server can be taken by git pull request and client will be picked after build from github. I will try later.
 
-### 17. Another way to deploy application is by putting frontend (after build) on backend's dist folder. In that case we do not need two aws instance and there will be no cors problem since both client and server are in same instance. In that case, server can be taken by git pull request and client will be picked after build from github. I will try later.
-
-### 18. Some useful linux command for general use,
+### 19. Some useful linux command for general use,
 
 ```sh
 pm2 start npm --name api -- run start:prod # Using project manager, run process from the current folder described in start:prod and name it api
