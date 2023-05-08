@@ -108,7 +108,13 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | b
 ~/.nvm/nvm.sh
 nvm -v # To see the nvm version
 npm -v # To see npm version
-```
+
+In case you see this failure(-bash: /home/ubuntu/.nvm/nvm.sh: Permission denied) message, do following,
+Copy & Past (each line separately)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+``` 
 
 ### 10. For only one time, install project manager pm2, 
 ```sh
@@ -121,7 +127,7 @@ npm install -g pm2
 mkdir -p deploy/backend 
 cd deploy/backend
 git init # initialize repository
-git remote add origin khaledtudce/socialmediakhaled2022_backend.git # add remote repository origin
+git remote add origin https://github.com/khaledtudce/socialmediakhaled2022_backend.git # add remote repository origin
 git remote set-url origin https://github.com/khaledtudce/socialmediakhaled2022_backend.git # give access right
 ```
 
